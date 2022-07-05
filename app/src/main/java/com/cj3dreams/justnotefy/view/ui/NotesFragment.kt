@@ -6,18 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cj3dreams.justnotefy.R
+import com.cj3dreams.justnotefy.model.NoteEntity
 import com.cj3dreams.justnotefy.view.adapter.NotesAdapter
-import com.cj3dreams.justnotefy.vm.NoteViewModel
+import com.cj3dreams.justnotefy.vm.NotesViewModel
+import com.cj3dreams.justnotefy.vm.RoomViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class NotesFragment : Fragment(), View.OnClickListener {
-    private val noteViewModel: NoteViewModel by viewModel()
+    private val notesViewModel: NotesViewModel by viewModel()
+    private val roomViewModel: RoomViewModel by viewModel()
 
     private lateinit var recyclerView: RecyclerView
 
@@ -36,9 +38,14 @@ class NotesFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.adapter = NotesAdapter(requireContext(), (1..20).toList(), this)
-        noteViewModel.getAllNotes()
-        noteViewModel.newsResponse.observe(viewLifecycleOwner, Observer {
+        notesViewModel.getAllNotes()
+        notesViewModel.newsResponse.observe(viewLifecycleOwner, Observer {
             Log.e("Nen", it.toString())
+        })
+        roomViewModel.insertNote(NoteEntity(0,"dsfsdfsvfggdfbkukjf",455445,"dfgdfdgdgdfg", "gdfgdfg"))
+        roomViewModel.getAllNews()
+        roomViewModel.notesData.observe(viewLifecycleOwner, Observer {
+            Log.e("252626", it.toString())
         })
     }
 

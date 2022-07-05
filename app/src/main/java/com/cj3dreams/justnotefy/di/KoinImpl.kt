@@ -1,12 +1,17 @@
 package com.cj3dreams.justnotefy.di
 
+import android.app.Application
+import androidx.room.Room
 import com.cj3dreams.justnotefy.BuildConfig
+import com.cj3dreams.justnotefy.source.local.AppDb
 import com.cj3dreams.justnotefy.source.remote.RestApiRequests
-import com.cj3dreams.justnotefy.vm.NoteViewModel
+import com.cj3dreams.justnotefy.vm.NotesViewModel
+import com.cj3dreams.justnotefy.vm.RoomViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -42,6 +47,23 @@ val networkModule = module {
     factory { provideRemoteDataSource(RestApiRequests::class.java) }
 
     viewModel {
-        NoteViewModel(get())
+        NotesViewModel(get())
+    }
+}
+val userDb = module {
+
+    fun provideDataBase(application: Application) =
+        Room.databaseBuilder(application, AppDb::class.java, "AppDb")
+            .fallbackToDestructiveMigration()
+            .build()
+
+    fun provideDao(database: AppDb) = database.noteDao()
+
+    single { provideDataBase(androidApplication()) }
+    single { provideDao(get()) }
+}
+val viewModel = module {
+    viewModel {
+        RoomViewModel(get())
     }
 }

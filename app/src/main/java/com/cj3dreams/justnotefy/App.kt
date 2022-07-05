@@ -2,6 +2,8 @@ package com.cj3dreams.justnotefy
 
 import android.app.Application
 import com.cj3dreams.justnotefy.di.networkModule
+import com.cj3dreams.justnotefy.di.userDb
+import com.cj3dreams.justnotefy.di.viewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -12,7 +14,7 @@ class App: Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(networkModule)
+            modules(networkModule, userDb, viewModel)
         }
     }
 }

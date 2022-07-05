@@ -10,7 +10,7 @@ import com.cj3dreams.justnotefy.source.remote.Resource
 import com.cj3dreams.justnotefy.source.remote.RestApiRequests
 import kotlinx.coroutines.launch
 
-class NoteViewModel(api: RestApiRequests): ViewModel() {
+class NotesViewModel(api: RestApiRequests): ViewModel() {
     private val repository = RemoteNotesRepository(api)
 
     private val _noteResponse: MutableLiveData<Resource<NotesResponse>> = MutableLiveData()
