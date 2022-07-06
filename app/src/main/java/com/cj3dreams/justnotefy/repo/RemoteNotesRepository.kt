@@ -5,6 +5,9 @@ import com.cj3dreams.justnotefy.source.remote.RestApiRequests
 class RemoteNotesRepository(private val api: RestApiRequests): BaseRepository() {
 
     suspend fun getAllNotes() = safeApiCall { api.getAllNotes() }
-//    suspend fun insertNote() = safeApiCall { api.saveNote() }
+
+    suspend fun insertNote(note: String, autoid: String,
+        colorOfNote: Int) = safeApiCall {
+        api.saveNote(note, autoid, colorOfNote.toString()) }
 
 }

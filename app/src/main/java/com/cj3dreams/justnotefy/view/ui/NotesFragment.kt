@@ -1,20 +1,25 @@
 package com.cj3dreams.justnotefy.view.ui
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cj3dreams.justnotefy.R
 import com.cj3dreams.justnotefy.model.NoteEntity
+import com.cj3dreams.justnotefy.source.remote.Resource
 import com.cj3dreams.justnotefy.view.adapter.NotesAdapter
 import com.cj3dreams.justnotefy.vm.NotesViewModel
 import com.cj3dreams.justnotefy.vm.RoomViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.sql.Date
+import java.util.*
 
 
 class NotesFragment : Fragment(), View.OnClickListener {
@@ -22,6 +27,14 @@ class NotesFragment : Fragment(), View.OnClickListener {
     private val roomViewModel: RoomViewModel by viewModel()
 
     private lateinit var recyclerView: RecyclerView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        notesViewModel.insertNote("NEWS", "333", 464464)
+        roomViewModel.getAllNotes()
+        notesViewModel.getAllNotes()
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,26 +44,47 @@ class NotesFragment : Fragment(), View.OnClickListener {
 
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView.adapter = NotesAdapter(requireContext(), (1..20).toList(), this)
-        notesViewModel.getAllNotes()
-        notesViewModel.newsResponse.observe(viewLifecycleOwner, Observer {
-            Log.e("Nen", it.toString())
+        notesViewModel.postResponse.observe(viewLifecycleOwner, Observer { post ->
+            when (post) {
+                is Resource.Success -> {
+                    Log.e("KOLA", post.value.toString())
+                }
+                else -> Log.e("KOLA", post.toString())
+            }
         })
-        roomViewModel.insertNote(NoteEntity(0,"dsfsdfsvfggdfbkukjf",455445,"dfgdfdgdgdfg", "gdfgdfg"))
-        roomViewModel.getAllNews()
-        roomViewModel.notesData.observe(viewLifecycleOwner, Observer {
-            Log.e("252626", it.toString())
+
+        notesViewModel.newsResponse.observe(viewLifecycleOwner, { resource->
+            when (resource){
+                is Resource.Success -> {
+                    roomViewModel.setNotesToDb(resource.value.results)
+                    roomViewModel.notesData.observe(viewLifecycleOwner, { notesEntityList ->
+                        recyclerView.adapter = NotesAdapter(requireContext(), notesEntityList, this)
+                    })
+                }
+                is Resource.Failure -> {
+
+                }
+            }
         })
     }
 
     override fun onClick(v: View?) {
-
+        when(v!!.id){
+            R.id.root -> {
+                val tag = v.tag as NoteEntity
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.frgView, DetailFragment.getNoteEntity(tag))
+                    ?.addToBackStack("backToMain")
+                    ?.commit()
+            }
+        }
     }
 
 }

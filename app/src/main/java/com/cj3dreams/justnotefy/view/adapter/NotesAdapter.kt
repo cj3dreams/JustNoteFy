@@ -11,8 +11,9 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.cj3dreams.justnotefy.R
+import com.cj3dreams.justnotefy.model.NoteEntity
 
-class NotesAdapter(private val context: Context, private val list: List<Any>,
+class NotesAdapter(private val context: Context, private val list: List<NoteEntity?>,
     private val onClickListener: View.OnClickListener)
     :RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
@@ -33,10 +34,17 @@ class NotesAdapter(private val context: Context, private val list: List<Any>,
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val itemData = list[position]
-        holder.noteTx.text = itemData.toString()
+        holder.noteTx.text = itemData?.note
         holder.colorItem.background =
             AppCompatResources.getDrawable(context,
                 holder.randomColors[(holder.randomColors.indices).toList().random()])
+        try {
+            holder.item.setOnClickListener(onClickListener)
+            holder.item.tag = itemData
+        }
+        catch (e: Exception){
+
+        }
     }
 
     override fun getItemCount() = list.size

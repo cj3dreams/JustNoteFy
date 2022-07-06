@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.ui.DetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
+        android:id="@+id/noteFrgEditText"
+        android:layout_margin="20dp"
+        android:gravity="top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:textSize="20sp"
+        tools:text="How the Data API Works
 
-</FrameLayout>
+The Data API is not a direct connection to your database. Instead, it routes requests through a fully-managed middleware layer, called Atlas App Services, that sits between your cluster and client apps. This layer handles user authentication and enforces data access rules to ensure that your data is secure.
+
+You can quickly set up and access the Data API through Atlas, which creates and manages an App Services app for you. Atlas supports API key authentication with several basic permissions models.
+
+You can also define more complex API access permdfgdfgdfgdfgdfgdfgdfgdfgissions and custom endpoints by accessing the managed Atlas Data gghges)." />
+
+
+
+</RelativeLayout>

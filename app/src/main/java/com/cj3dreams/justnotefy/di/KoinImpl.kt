@@ -25,15 +25,15 @@ val networkModule = module {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(OkHttpClient.Builder().also { client ->
-                client.addInterceptor((Interceptor { chain ->
-                    val newRequest = Request.Builder()
-                        .addHeader("X-Parse-Application-Id", "ZHG1r0aOaeYrOcC5J8FhFAXix5R0aGQ2KDq9fTvb")
-                        .addHeader("X-Parse-REST-API-Key", "3fTKahfcObJIHtVGeslry90jtGM7yqKMK50SXA2q")
-                        .addHeader("Content-Type", "application/json")
-                        .url(chain.request().url.toString())
-                        .build()
-                    chain.proceed(newRequest)
-                }))
+//                client.addInterceptor((Interceptor { chain ->
+//                    val newRequest = Request.Builder()
+//                        .addHeader("X-Parse-Application-Id", "ZHG1r0aOaeYrOcC5J8FhFAXix5R0aGQ2KDq9fTvb")
+//                        .addHeader("X-Parse-REST-API-Key", "3fTKahfcObJIHtVGeslry90jtGM7yqKMK50SXA2q")
+//                        .addHeader("Content-Type", "application/json")
+//                        .url(chain.request().url.toString())
+//                        .build()
+//                    chain.proceed(newRequest)
+//                }))
                 if (BuildConfig.DEBUG) {
                     val logging = HttpLoggingInterceptor()
                     logging.setLevel(HttpLoggingInterceptor.Level.BODY)
