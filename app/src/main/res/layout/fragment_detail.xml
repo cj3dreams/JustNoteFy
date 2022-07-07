@@ -1,24 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.ui.DetailFragment">
 
-    <EditText
-        android:id="@+id/noteFrgEditText"
-        android:layout_margin="20dp"
-        android:gravity="top"
+    <androidx.core.widget.NestedScrollView
+        android:layout_above="@+id/btnSave"
+        android:id="@+id/nestedScroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="20sp"
-        tools:text="How the Data API Works
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/noteFrgEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:gravity="top"
+            android:textSize="20sp"
+            tools:text="How the Data API Works
 
 The Data API is not a direct connection to your database. Instead, it routes requests through a fully-managed middleware layer, called Atlas App Services, that sits between your cluster and client apps. This layer handles user authentication and enforces data access rules to ensure that your data is secure.
 
 You can quickly set up and access the Data API through Atlas, which creates and manages an App Services app for you. Atlas supports API key authentication with several basic permissions models.
 
 You can also define more complex API access permdfgdfgdfgdfgdfgdfgdfgdfgissions and custom endpoints by accessing the managed Atlas Data gghges)." />
+
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btnColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/black"
+        android:text="Цвет"
+        android:textColor="@color/white" />
+
+    <Button
+        android:layout_toEndOf="@+id/btnColor"
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/color4"
+        android:text="Удалить"
+        android:textColor="@color/white" />
+
+    <Button
+        android:layout_toEndOf="@+id/btnDelete"
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/black"
+        android:text="Сохранить"
+        android:textColor="@color/white" />
+
 
 
 

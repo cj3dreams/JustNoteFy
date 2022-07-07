@@ -5,7 +5,7 @@ import com.cj3dreams.justnotefy.model.NoteEntity
 
 @Dao
 interface NotesDao {
-    @Query("SELECT * FROM notes ORDER by id DESC")
+    @Query("SELECT * FROM notes ORDER by objectId DESC")
     suspend fun getAllNotes(): List<NoteEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -15,7 +15,9 @@ interface NotesDao {
     suspend fun insertNote(noteEntity: NoteEntity?)
 
     @Delete
-    suspend fun deleteAllNote(noteEntity: NoteEntity?)
+    suspend fun deleteNote(noteEntity: NoteEntity?)
+//    @Query("DELETE FROM notes WHERE objectId = :objectId")
+//    suspend fun deleteNote(objectId: String?)
 
     @Update
     suspend fun updateNote(noteEntity: NoteEntity?)

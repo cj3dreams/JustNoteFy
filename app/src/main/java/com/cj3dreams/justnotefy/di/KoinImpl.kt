@@ -2,6 +2,7 @@ package com.cj3dreams.justnotefy.di
 
 import android.app.Application
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.cj3dreams.justnotefy.BuildConfig
 import com.cj3dreams.justnotefy.source.local.AppDb
 import com.cj3dreams.justnotefy.source.remote.RestApiRequests
@@ -16,6 +17,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.Executors
 
 const val BASE_URL = "https://parseapi.back4app.com"
 
@@ -54,7 +56,9 @@ val userDb = module {
 
     fun provideDataBase(application: Application) =
         Room.databaseBuilder(application, AppDb::class.java, "AppDb")
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration().setQueryCallback(RoomDatabase.QueryCallback { sqlQuery, bindArgs ->
+                println("SQL Query: $sqlQuery SQL Args: $bindArgs")
+            }, Executors.newSingleThreadExecutor())
             .build()
 
     fun provideDao(database: AppDb) = database.noteDao()

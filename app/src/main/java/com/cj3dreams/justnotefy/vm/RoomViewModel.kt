@@ -20,19 +20,22 @@ class RoomViewModel(notesDao: NotesDao): ViewModel() {
     fun setNotesToDb(list: List<Result>) = viewModelScope.launch(Dispatchers.IO) {
         val noteList = mutableListOf<NoteEntity>().apply {
             list.forEach {
-                this.add(NoteEntity(0,it.note, it.colorOfNote.toInt(), it.createdAt, it.updatedAt))
+                this.add(NoteEntity(0,it.note, it.colorOfNote.toInt(), it.createdAt,
+                    it.updatedAt, it.objectId))
             }
         }
         repository.insertNoteList(noteList)
-        notesData.postValue(repository.getAllNews())
+        getAllNotes()
     }
 
     fun getAllNotes() = viewModelScope.launch(Dispatchers.IO) {
-        notesData.postValue(repository.getAllNews())
+        val list = repository.getAllNews()
+        notesData.postValue(list)
     }
 
     fun insertNote(noteEntity: NoteEntity?) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertNote(noteEntity)
+        getAllNotes()
     }
 
     fun insertNoteList(noteEntityList: List<NoteEntity>) = viewModelScope.launch(Dispatchers.IO) {
@@ -41,9 +44,11 @@ class RoomViewModel(notesDao: NotesDao): ViewModel() {
 
     fun updateNote(noteEntity: NoteEntity) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateNote(noteEntity)
+        getAllNotes()
     }
 
-    fun deleteNote(noteEntity: NoteEntity) = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteNote(noteEntity: NoteEntity?) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteNote(noteEntity)
+        getAllNotes()
     }
 }

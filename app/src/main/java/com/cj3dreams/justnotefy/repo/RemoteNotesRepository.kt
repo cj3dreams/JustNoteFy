@@ -10,4 +10,9 @@ class RemoteNotesRepository(private val api: RestApiRequests): BaseRepository() 
         colorOfNote: Int) = safeApiCall {
         api.saveNote(note, autoid, colorOfNote.toString()) }
 
+    suspend fun updateNote(objectId: String, note: String, colorOfNote: Int) =
+        safeApiCall { api.updateNote(objectId, note, colorOfNote.toString())  }
+
+    suspend fun deleteNote(objectId: String) = safeApiCall { api.deleteNote(objectId) }
+
 }

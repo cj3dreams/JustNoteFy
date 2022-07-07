@@ -5,10 +5,9 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "notes", indices = [Index(value = ["note", "createdAt"], unique = true)]
+@Entity(tableName = "notes", indices = [Index(value = ["objectId"], unique = true)]
 )
 data class NoteEntity(
-    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id:Int = 0,
     @ColumnInfo(name = "note")
@@ -18,5 +17,8 @@ data class NoteEntity(
     @ColumnInfo(name = "createdAt")
     var createdAt: String,
     @ColumnInfo(name = "updatedAt")
-    var updatedAt: String
+    var updatedAt: String,
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "objectId")
+    var objectId: String
     )

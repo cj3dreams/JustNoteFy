@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.cj3dreams.justnotefy.R
 import com.cj3dreams.justnotefy.model.NoteEntity
@@ -35,9 +36,8 @@ class NotesAdapter(private val context: Context, private val list: List<NoteEnti
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val itemData = list[position]
         holder.noteTx.text = itemData?.note
-        holder.colorItem.background =
-            AppCompatResources.getDrawable(context,
-                holder.randomColors[(holder.randomColors.indices).toList().random()])
+        holder.colorItem.setBackgroundColor(itemData!!.colorOfNote)
+
         try {
             holder.item.setOnClickListener(onClickListener)
             holder.item.tag = itemData
