@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.whenCreated
 import com.cj3dreams.justnotefy.MainActivity
@@ -44,6 +45,7 @@ class DetailFragment : Fragment() {
         val act = activity as MainActivity
         act.addFab.visibility = View.INVISIBLE
         act.bckBtn.visibility = View.VISIBLE
+        act.switcher = true
     }
 
     override fun onCreateView(
@@ -62,7 +64,6 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         btnColor.setOnClickListener{
             colorPicker = ColorPicker(requireActivity())
@@ -129,6 +130,7 @@ class DetailFragment : Fragment() {
                     is Resource.Success -> {
                         roomViewModel.deleteNote(currentNoteEntity)
 
+                        activity?.supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                         activity?.supportFragmentManager?.beginTransaction()
                             ?.replace(R.id.frgView, NotesFragment())
                             ?.commit()
@@ -139,13 +141,17 @@ class DetailFragment : Fragment() {
 
             }
         }
-        else btnDelete.background.setTint(Color.parseColor("#2B2A2A"))
+        else {
+            btnDelete.isClickable = false
+            btnDelete.background.setTint(Color.parseColor("#2B2A2A"))
+        }
     }
 
     override fun onDestroyView() {
         val act = activity as MainActivity
         act.addFab.visibility = View.VISIBLE
         act.bckBtn.visibility = View.GONE
+        act.switcher = false
         super.onDestroyView()
     }
 

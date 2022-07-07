@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cj3dreams.justnotefy.R
@@ -61,9 +62,9 @@ class NotesFragment : Fragment(), View.OnClickListener {
         when(v!!.id){
             R.id.root -> {
                 val tag = v.tag as NoteEntity
+                activity?.supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.frgView, DetailFragment.getNoteEntity(tag))
-//                    ?.addToBackStack("backToMain")
                     ?.commit()
             }
         }
